@@ -4,14 +4,14 @@ import java.io.InputStream;
 import java.util.Scanner;
 
 public class Main {
-
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        Calculator calculator = new Calculator();
+        Calculator<Double> calculator = new Calculator<Double>();
 
         // 반복문
         while (true) {
+
             System.out.println("첫 번째 숫자를 입력하세요: ");
             int num1 = scanner.nextInt();
             if (num1 < 0) {
@@ -31,13 +31,12 @@ public class Main {
             char operator = scanner.next().charAt(0);
 
             // Main에서 입력받은 값을 Calculator의 '속성'에 넣어줌
-            calculator.setNum1(num1);
-            calculator.setNum2(num2);
-            calculator.setOperator(operator);
+            calculator.setNum1((double) num1);
+            calculator.setNum2((double) num2);
+            calculator.setOperator(Operator.fromChar(operator));
 
             // 계산
-            int result = calculator.calculate();
-
+            double result = calculator.calculate();
             System.out.println("결과: " + result);
 
             // 지금까지 저장된 모든 결과 출력 (Getter 사용)
@@ -46,8 +45,10 @@ public class Main {
             // 가장 먼저 저장된 결과 삭제 여부
             System.out.println("가장 먼저 저장된 결과를 삭제하시겠습니까? (y 입력 시 삭제)");
             String delete = scanner.next();
+
             if (delete.equalsIgnoreCase("y")) {
-                Integer removed = calculator.removeFirstResult();
+                Double removed = calculator.removeFirstResult();
+
                 if (removed == null) {
                     System.out.println("삭제할 결과가 없습니다.");
                 } else {

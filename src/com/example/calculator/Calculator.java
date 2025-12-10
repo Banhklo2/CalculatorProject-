@@ -3,69 +3,77 @@ package com.example.calculator;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Calculator {
+public class Calculator<T extends Number> {
 
     // 1. 속성
-    int num1;
-    int num2;
-    char operator;
+    private T num1;
+    private T num2;
+    private Operator operator;
 
-    private List<Integer> results = new ArrayList<>();
+    private final List<Double> results = new ArrayList<>();
 
     // 2. 생성자
     public Calculator() {
     }
 
-    // 3. 기능
-    public void setNum1(int num1) {
+    // 3. 기능 (Setter)
+    public void setNum1(T num1) {
         this.num1 = num1;
     }
-    public void setNum2(int num2) {
+
+    public void setNum2(T num2) {
         this.num2 = num2;
     }
-    public void setOperator(char operator) {
+
+    public void setOperator(Operator operator) {
         this.operator = operator;
     }
 
-    public int calculate() {
-        int result = 0;
+    // 계산 기능
+    public double calculate() {
+
+        double a = num1.doubleValue();
+        double b = num2.doubleValue();
+        double result = 0;
 
         switch (operator) {
-            case '+':
-                result = num1 + num2;
+            case PLUS:
+                result = a + b;
                 break;
-            case '-':
-                result = num1 - num2;
+            case MINUS:
+                result = a - b;
                 break;
-            case '*':
-                result = num1 * num2;
+            case MULTIPLY:
+                result = a * b;
                 break;
-            case '/':
-                if (num2 == 0) {
+            case DIVIDE:
+                if (b == 0) {
                     System.out.println("분모에는 0이 들어갈 수 없습니다!");
                     return 0;
                 }
-                result = num1 / num2;
+                result = a / b;
                 break;
         }
 
         // 결과를 리스트에 저장
         results.add(result);
+
         return result;
     }
 
     // 지금까지 계산된 결과 리스트를 돌려주는 Getter
-    public List<Integer> getResult() {
+    public List<Double> getResult() {
         return results;
     }
 
-    // 결과 리스트를 통째로 바꾸는 Setter
-    public void setResult(List<Integer> result) {
-        this.results = result;
+    // 결과 리스트 통째로 바꾸는 Setter
+    public void setResult(List<Double> result) {
+        results.clear();
+        results.addAll(result);
     }
 
     // 가장 먼저 저장된 결과를 삭제하는 메서드
-    public Integer removeFirstResult() {
+    public Double removeFirstResult() {
         if (results.isEmpty()) {
             return null;
         }
